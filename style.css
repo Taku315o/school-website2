@@ -1,0 +1,240 @@
+/* 基本設定 */
+:root {
+    --primary-bg-color: #121212; /* メインの背景色 */
+    --secondary-bg-color: #1e1e1e; /* セクションなどの背景色 */
+    --primary-text-color: #e0e0e0; /* メインの文字色 */
+    --secondary-text-color: #b3b3b3; /* やや薄い文字色 */
+    --accent-color: #00aaff; /* アクセントカラー (モダンな青) */
+    --accent-hover-color: #0088cc; /* アクセントカラーのホバー */
+    --border-color: #333333; /* ボーダーの色 */
+    --font-family: 'Roboto', sans-serif; /* モダンなフォント */
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--font-family);
+    background-color: var(--primary-bg-color);
+    color: var(--primary-text-color);
+    line-height: 1.6;
+}
+
+.container {
+    width: 90%;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+a {
+    color: var(--accent-color);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: var(--accent-hover-color);
+}
+
+ul {
+    list-style: none;
+}
+
+h1, h2, h3 {
+    color: var(--primary-text-color);
+    margin-bottom: 1rem;
+    font-weight: 700;
+}
+
+h1 {
+    font-size: 3rem;
+}
+
+h2 {
+    font-size: 2.2rem;
+    border-bottom: 2px solid var(--accent-color);
+    padding-bottom: 0.5rem;
+    display: inline-block; /* 下線がテキスト幅に合うように */
+}
+
+p {
+    margin-bottom: 1rem;
+    color: var(--secondary-text-color);
+}
+
+/* ヘッダー */
+header {
+    background-color: var(--secondary-bg-color);
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--border-color);
+    position: sticky; /* スクロール追従 */
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+}
+
+header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--primary-text-color);
+}
+
+nav ul {
+    display: flex;
+}
+
+nav ul li {
+    margin-left: 1.5rem;
+}
+
+nav ul li a {
+    color: var(--primary-text-color);
+    font-weight: 400;
+    padding: 0.5rem 0;
+    position: relative; /* 下線アニメーション用 */
+}
+
+nav ul li a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background-color: var(--accent-color);
+    transition: width 0.3s ease;
+}
+
+nav ul li a:hover::after {
+    width: 100%;
+}
+
+.contact-btn {
+    background-color: var(--accent-color);
+    color: #ffffff;
+    padding: 0.6rem 1.2rem;
+    border-radius: 5px;
+    font-weight: 700;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.contact-btn:hover {
+    background-color: var(--accent-hover-color);
+    color: #ffffff;
+    transform: translateY(-2px); /* ホバー時に少し浮き上がる */
+}
+
+/* メインビジュアル */
+.main-visual {
+    background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1511379938547-c1f69419898d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8bXVzaWMlMjB0ZWNobm9sb2d5fGVufDB8fDB8fHww&auto=format&fit=crop&w=1000&q=60') no-repeat center center/cover; /* 仮の背景画像 */
+    height: 70vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: #fff;
+}
+
+.main-visual h1 {
+    font-size: 3.5rem;
+    margin-bottom: 0.5rem;
+    text-shadow: 2px 2px 8px rgba(0,0,0,0.7);
+}
+
+.main-visual p {
+    font-size: 1.2rem;
+    color: #f0f0f0;
+    max-width: 600px;
+    margin: 0 auto;
+    text-shadow: 1px 1px 4px rgba(0,0,0,0.7);
+}
+
+/* コンテンツセクション */
+.content-section {
+    padding: 4rem 0;
+    background-color: var(--primary-bg-color); /* メインと同じか、少し変えても良い */
+}
+
+.content-section:nth-child(odd) { /* セクションごとに背景色を少し変える場合 */
+    /* background-color: var(--secondary-bg-color); */
+}
+
+.content-section .container {
+    max-width: 900px; /* コンテンツ幅を少し狭める */
+}
+
+.content-section h2 {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+/* フッター */
+footer {
+    background-color: var(--secondary-bg-color);
+    color: var(--secondary-text-color);
+    text-align: center;
+    padding: 2rem 0;
+    border-top: 1px solid var(--border-color);
+    margin-top: 2rem;
+}
+
+/* レスポンシブ対応 (簡易的) */
+@media (max-width: 768px) {
+    header .container {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    nav {
+        margin-top: 1rem;
+        width: 100%;
+    }
+
+    nav ul {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    nav ul li {
+        margin: 0.5rem 0;
+        text-align: left;
+    }
+
+    nav ul li a {
+        display: block; /* スマホ表示でリンクエリアを広げる */
+    }
+
+    .contact-btn {
+        margin-top: 1rem;
+        align-self: flex-start; /* スマホ表示で左寄せ */
+    }
+
+    .main-visual h1 {
+        font-size: 2.5rem;
+    }
+
+    .main-visual p {
+        font-size: 1rem;
+    }
+
+    h1 {
+        font-size: 2.5rem;
+    }
+
+    h2 {
+        font-size: 1.8rem;
+    }
+}
