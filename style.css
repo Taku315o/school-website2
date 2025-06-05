@@ -5,6 +5,7 @@
     --primary-text-color: #e0e0e0; /* メインの文字色 */
     --secondary-text-color: #b3b3b3; /* やや薄い文字色 */
     --accent-color: #00aaff; /* アクセントカラー (モダンな青) */
+    --accent-color-rgb: 0, 170, 255; /* 追加: アクセントカラーのRGB値 */
     --accent-hover-color: #0088cc; /* アクセントカラーのホバー */
     --border-color: #333333; /* ボーダーの色 */
     --font-family: 'Roboto', sans-serif; /* モダンなフォント */
@@ -237,4 +238,55 @@ footer {
     h2 {
         font-size: 1.8rem;
     }
+}
+
+
+
+/* --- メンバーセクション --- */
+.content-section#member .container {
+    max-width: 1200px; /* メンバーセクションは少し幅広にしても良い */
+}
+
+.member-grid {
+    display: grid;
+    /* 画面幅に応じて列数を自動調整。各カードの最小幅280px、最大1fr(均等分割) */
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem; /* カード間の隙間 */
+    margin-top: 2.5rem; /* 見出しからのマージン */
+}
+
+.member-card {
+    background-color: var(--secondary-bg-color);
+    padding: 2rem 1.5rem; /* パディングを少し調整 */
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4); /* 少し濃い目の影 */
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.member-card:hover {
+    transform: translateY(-8px); /* ホバーで少し大きく浮き上がる */
+    box-shadow: 0 10px 30px rgba(var(--accent-color-rgb), 0.25); /* アクセントカラーに基づいた影 */
+}
+
+.member-card .member-name {
+    font-size: 1.5rem; /* 名前を少し大きく */
+    color: var(--accent-color);
+    margin-bottom: 0.5rem;
+    font-weight: 700;
+}
+
+.member-card .member-role {
+    font-size: 1rem; /* 役割の文字サイズ調整 */
+    color: var(--primary-text-color);
+    margin-bottom: 1rem; /* 紹介文との間隔を調整 */
+    font-style: italic;
+    min-height: 2em; /* 役割が短い場合でも高さをある程度確保 */
+}
+
+.member-card .member-bio {
+    font-size: 0.9rem;
+    color: var(--secondary-text-color);
+    line-height: 1.6;
 }
