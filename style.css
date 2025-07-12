@@ -1,3 +1,39 @@
+/* ===========================================
+   ローダー機能 (ページ読み込み時のスプラッシュ画面)
+   ========================================== */
+#loader {
+    position: fixed;          /* 画面全体に固定表示 */
+    width: 100%;
+    height: 100%;
+    background: #000;         /* 黒背景でスタイリッシュに */
+    display: flex;
+    justify-content: center;  /* 中央配置 */
+    align-items: center;
+    z-index: 9999;           /* 他の要素より最前面に表示 */
+    transition: opacity 0.5s ease-out; /* フェードアウト効果 */
+}
+
+/* ローダーのパルスドット */
+.loader-dot {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;       /* 円形にする */
+    background: var(--accent-color); /* アクセントカラーで目立たせる */
+    animation: pulse 1.2s infinite;   /* パルスアニメーションを無限ループ */
+}
+
+/* パルスアニメーション: ドットが拡大縮小しながら点滅 */
+@keyframes pulse {
+    0%, 100% { 
+        transform: scale(1);  /* 通常サイズ */
+        opacity: 0.5;         /* 半透明 */
+    }
+    50% { 
+        transform: scale(1.5); /* 1.5倍に拡大 */
+        opacity: 1;            /* 完全に不透明 */
+    }
+}
+
 /* 基本設定 */
 :root {
     --primary-bg-color: #121212; /* メインの背景色 */
@@ -8,7 +44,9 @@
     --accent-color-rgb: 0, 170, 255; /* 追加: アクセントカラーのRGB値 */
     --accent-hover-color: #0088cc; /* アクセントカラーのホバー */
     --border-color: #333333; /* ボーダーの色 */
-    --font-family: 'Roboto', sans-serif; /* モダンなフォント */
+    /*--font-family: 'Roboto', sans-serif; /* モダンなフォント */
+    --font-family: 'Inter', 'Roboto', sans-serif;
+
 }
 
 * {
@@ -140,13 +178,37 @@ nav ul li a:hover::after {
 
 /* メインビジュアル */
 .main-visual {
-    background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1511379938547-c1f69419898d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8bXVzaWMlMjB0ZWNobm9sb2d5fGVufDB8fDB8fHww&auto=format&fit=crop&w=1000&q=60') no-repeat center center/cover; /* 仮の背景画像 */
-    height: 70vh;
-    display: flex;
+    height: 100vh; /* 画面の高さいっぱいに広げる */
+    position: relative; /* 子要素を絶対配置するための基準 */
+    display: flex; /* テキストを中央揃えにするため */
     align-items: center;
     justify-content: center;
+    overflow: hidden; /* はみ出した要素を隠す */
+}
+
+/* ===========================================
+   3Dキャンバス機能 (Three.jsパーティクル背景)
+   ========================================== */
+#three-canvas-container {
+    position: absolute;       /* メインビジュアル内で絶対配置 */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;              /* 背景として最背面に配置 */
+}
+
+/* 3Dキャンバスの調整 */
+#three-canvas-container canvas {
+    display: block;          /* canvas特有の余白を消す */
+}
+
+/* 3Dキャンバス上に表示するテキストコンテナ */
+.main-visual .container {
+    position: relative;      /* canvasより手前に表示するため */
+    z-index: 2;             /* canvas(z-index: 1)より手前に配置 */
     text-align: center;
-    color: #fff;
+    color: #fff;            /* 白文字で視認性を確保 */
 }
 
 .main-visual h1 {
@@ -167,10 +229,6 @@ nav ul li a:hover::after {
 .content-section {
     padding: 4rem 0;
     background-color: var(--primary-bg-color); /* メインと同じか、少し変えても良い */
-}
-
-.content-section:nth-child(odd) { /* セクションごとに背景色を少し変える場合 */
-    /* background-color: var(--secondary-bg-color); */
 }
 
 .content-section .container {
@@ -242,99 +300,165 @@ footer {
 
 
 
-/* --- メンバーセクション --- */
+/* ===========================================
+   メンバーセクション機能 (チームメンバー表示)
+   ========================================== */
 .content-section#member .container {
-    max-width: 1200px; /* メンバーセクションは少し幅広にしても良い */
+    max-width: 1200px;       /* メンバーセクションは少し幅広にして表示領域を確保 */
 }
 
+/* レスポンシブグリッドレイアウト */
 .member-grid {
     display: grid;
     /* 画面幅に応じて列数を自動調整。各カードの最小幅280px、最大1fr(均等分割) */
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 2rem; /* カード間の隙間 */
-    margin-top: 2.5rem; /* 見出しからのマージン */
+    gap: 2rem;               /* カード間の隙間 */
+    margin-top: 2.5rem;      /* 見出しからのマージン */
 }
 
+/* メンバーカードのスタイリング */
 .member-card {
     background-color: var(--secondary-bg-color);
-    padding: 2rem 1.5rem; /* パディングを少し調整 */
-    border-radius: 8px;
+    padding: 2rem 1.5rem;    /* 内側の余白調整 */
+    border-radius: 8px;      /* 角を丸く */
     border: 1px solid var(--border-color);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4); /* 少し濃い目の影 */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4); /* 深い影で立体感 */
     text-align: center;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* ホバーアニメーション用 */
 }
 
+/* ホバー時のアニメーション効果 */
 .member-card:hover {
-    transform: translateY(-8px); /* ホバーで少し大きく浮き上がる */
-    box-shadow: 0 10px 30px rgba(var(--accent-color-rgb), 0.25); /* アクセントカラーに基づいた影 */
+  transform: translateY(-10px) scale(1.05); /* 浮き上がって少し拡大 */
+  box-shadow: 0 12px 30px rgba(var(--accent-color-rgb), 0.3); /* アクセント色の美しい影 */
 }
 
+/* メンバー名のスタイリング */
 .member-card .member-name {
-    font-size: 1.5rem; /* 名前を少し大きく */
+    font-size: 1.5rem;       /* 名前を大きく表示 */
     color: var(--accent-color);
     margin-bottom: 0.5rem;
-    font-weight: 700;
+    font-weight: 700;        /* 太字で強調 */
 }
 
+/* メンバーの役割表示 */
 .member-card .member-role {
-    font-size: 1rem; /* 役割の文字サイズ調整 */
+    font-size: 1rem;         /* 役割の文字サイズ */
     color: var(--primary-text-color);
-    margin-bottom: 1rem; /* 紹介文との間隔を調整 */
-    font-style: italic;
-    min-height: 2em; /* 役割が短い場合でも高さをある程度確保 */
+    margin-bottom: 1rem;     /* 紹介文との間隔 */
+    font-style: italic;      /* イタリック体で区別 */
+    min-height: 2em;         /* 役割が短い場合でも高さを確保してレイアウト統一 */
 }
 
+/* メンバーの自己紹介文 */
 .member-card .member-bio {
-    font-size: 0.9rem;
+    font-size: 0.9rem;       /* やや小さめの文字 */
     color: var(--secondary-text-color);
-    line-height: 1.6;
+    line-height: 1.6;        /* 読みやすい行間 */
+}
+
+/* メンバー名にグラデーション効果を追加 */
+.member-card .member-name {
+  background: linear-gradient(45deg, #00aaff, #00ffaa); /* 青から緑のグラデーション */
+  -webkit-background-clip: text;  /* WebKit系ブラウザ用 */
+  background-clip: text;          /* 標準プロパティ */
+  -webkit-text-fill-color: transparent; /* 文字を透明にしてグラデーションを表示 */
 }
 
 
 
 
 
-
-/* 追加するCSS例 */
+/* ===========================================
+   プログレスバー機能 (プロジェクト進捗表示)
+   ========================================== */
 .progress-bar-bg {
-    width: 100%;
-    background: #333;
-    border-radius: 8px;
-    overflow: hidden;
-    margin-bottom: 1rem;
-    height: 20px;
-  }
-  .progress-bar {
-    height: 100%;
-    background: linear-gradient(90deg, #00aaff, #66ffe6);
-    transition: width 0.5s;
-  }
-  .project-tasks {
-    list-style: none;
+    width: 100%;             /* 幅いっぱいに表示 */
+    background: #333;        /* ダークグレーの背景 */
+    border-radius: 8px;      /* 角を丸く */
+    overflow: hidden;        /* はみ出しを隠す */
+    margin-bottom: 1rem;     /* 下のマージン */
+    height: 20px;           /* バーの高さ */
+}
+
+/* プログレスバー本体 */
+.progress-bar {
+    height: 100%;           /* 親要素の高さに合わせる */
+    background: linear-gradient(90deg, #00aaff, #66ffe6); /* 青から水色のグラデーション */
+    transition: width 0.5s; /* 幅の変化をスムーズに */
+}
+
+/* ===========================================
+   タスク管理機能 (プロジェクトタスク表示)
+   ========================================== */
+.project-tasks {
+    list-style: none;       /* リストマーカーを非表示 */
     margin: 0;
     padding: 0;
-  }
-  .project-tasks li {
-    margin: 0.5rem 0;
-    padding: 0.7rem 1rem;
-    border-radius: 5px;
-    background: #222;
-    color: #eee;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  .project-tasks li.done {
-    background: #244d2e;
-    color: #aef6af;
-  }
-  .project-tasks li.doing {
-    background: #23486e;
-    color: #aee7f6;
-  }
-  .project-tasks li span {
-    font-size: 0.95em;
-    opacity: 0.7;
-  }
+}
+
+/* タスクアイテムの基本スタイル */
+.project-tasks li {
+    margin: 0.5rem 0;       /* 上下のマージン */
+    padding: 0.7rem 1rem;   /* 内側の余白 */
+    border-radius: 5px;     /* 角を丸く */
+    background: #222;       /* ダークグレー背景 */
+    color: #eee;           /* 明るいグレー文字 */
+    display: flex;          /* フレックスレイアウト */
+    justify-content: space-between; /* 両端揃え */
+    align-items: center;    /* 縦方向中央揃え */
+}
+
+/* 完了済みタスクのスタイル */
+.project-tasks li.done {
+    background: #244d2e;    /* 緑系の背景色 */
+    color: #aef6af;        /* 明るい緑の文字色 */
+}
+
+/* 進行中タスクのスタイル */
+.project-tasks li.doing {
+    background: #23486e;    /* 青系の背景色 */
+    color: #aee7f6;        /* 明るい青の文字色 */
+}
+
+/* タスク内のスパン要素（日付やメタ情報用） */
+.project-tasks li span {
+    font-size: 0.95em;     /* やや小さめの文字 */
+    opacity: 0.7;          /* 半透明で控えめに */
+}
   
+
+/* ===========================================
+   メインビジュアル背景エフェクト機能
+   ========================================== */
+/* 3Dパーティクルの奥に幻想的な深みを演出する背景効果 */
+.main-visual::before {
+  content: "";              /* 疑似要素を作成 */
+  position: absolute;       /* 絶対配置 */
+  inset: 0;                /* 全方向0で親要素全体をカバー */
+  background: radial-gradient(ellipse at center, rgba(0,170,255,0.2), transparent 70%);
+  /* 中央から放射状に広がる青いグラデーション */
+  backdrop-filter: blur(4px); /* 背景にぼかし効果 */
+  z-index: 0;              /* 最背面に配置 */
+}
+
+
+
+/* ===========================================
+   ロゴアニメーション機能 (ページ読み込み時のフェードイン)
+   ========================================== */
+.logo {
+  animation: fadeInDown 1s ease-in-out; /* 1秒かけて上からフェードイン */
+}
+
+/* 上から下にフェードインするアニメーション */
+@keyframes fadeInDown {
+  0% {
+    transform: translateY(-20px); /* 上方向に20px移動した状態から開始 */
+    opacity: 0;                   /* 完全に透明 */
+  }
+  100% {
+    transform: translateY(0);     /* 元の位置に戻る */
+    opacity: 1;                   /* 完全に不透明 */
+  }
+}

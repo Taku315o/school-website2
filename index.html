@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -5,9 +6,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FUJITA PROJECT</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <!--<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet"> -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+    <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">-->
+    <!-- Font Awesomeを追加したが。微妙だったので却下 -->
 </head>
 <body>
+    <!-- ローダー -->
+    <div id="loader">
+        <div class="loader-dot"></div>
+    </div>
+
     <header>
         <div class="container">
             <div class="logo">FUJITA PROJECT</div>
@@ -16,8 +26,9 @@
                     <li><a href="#">NEWS</a></li>
                     <li><a href="#">PROJECT</a></li>
                     <li><a href="#about">ABOUT US</a></li>
-                    <li><a href="#works">WORKS</a></li>
                     <li><a href="#member">MEMBER</a></li>
+                    <li><a href="#works">WORKS</a></li>
+                    
                 </ul>
             </nav>
             <a href="#" class="contact-btn">CONTACT</a>
@@ -25,13 +36,14 @@
     </header>
 
     <section class="main-visual">
+        <div id="three-canvas-container"></div>
         <div class="container">
             <h1>FUJITA PROJECT</h1>
             <p>私たちのプロジェクトへようこそ</p>
         </div>
     </section>
 
-    <section id="about" class="content-section">
+    <section id="about" class="content-section" data-aos="fade-up">
         <div class="container">
             <h2>ABOUT</h2>
             <p>私たちについて</p>
@@ -40,7 +52,7 @@
 
 
 
-    <section id="member" class="content-section">
+    <section id="member" class="content-section" data-aos="fade-up">
         <div class="container">
             <h2>MEMBER</h2>
             <div class="member-grid">            
@@ -106,14 +118,13 @@
 
 
 
-    <section id="works" class="content-section">
+    <section id="works" class="content-section" data-aos="fade-up">
         <div class="container">
-            <h2>WORKS</h2>
+            <h2><i class="fas fa-tools"></i> WORKS</h2>
+
             <p>これまでの活動実績を紹介します。</p>
             </div>
     </section>
-
-
 
     <!-- <section id="dashboard" class="content-section">
         <div class="container">
@@ -154,18 +165,18 @@
         </div>
     </footer>
 
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://unpkg.com/three@0.165.0/build/three.module.js",
+            "three/addons/": "https://unpkg.com/three@0.165.0/examples/jsm/"
+        }
+    }
+    </script>
+    <script type="module" src="main.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+    <script>
+      AOS.init();
+    </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
