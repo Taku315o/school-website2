@@ -66,7 +66,7 @@ const material = new THREE.PointsMaterial({
     size: 0.03, // パーティクルのサイズ
     blending: THREE.AdditiveBlending, // 加算合成で明るく輝く効果
     transparent: true, // 透過を有効に
-    opacity: 0.8 // 少し透明にする
+    opacity: 0.3 // 少し透明にする
 });
 
 const particles = new THREE.Points(geometry, material);
@@ -120,3 +120,89 @@ window.addEventListener('resize', () => {
     renderer.setSize(container.clientWidth, container.clientHeight);
     renderer.setPixelRatio(window.devicePixelRatio);
 });
+
+//
+// ...（既存コード省略）...
+
+// ===== レーザー変数 =====
+// let laser = null;
+// let laserTimeout = null;
+// const laserColor = 0xff0099;
+
+// ===== レーザー発射関数 =====
+// function shootLaser(from, to) {
+//     if (laser) {
+//         scene.remove(laser);
+//         laser.geometry.dispose();
+//         laser.material.dispose();
+//         laser = null;
+//     }
+    
+//     // レーザーの長さと方向を計算
+//     const direction = new THREE.Vector3().subVectors(to, from);
+//     const distance = direction.length();
+    
+//     // 円筒形のジオメトリでレーザーを作成（太いレーザー）
+//     const geometry = new THREE.CylinderGeometry(0.02, 0.02, distance, 8);
+//     const material = new THREE.MeshBasicMaterial({ 
+//         color: laserColor,
+//         transparent: true,
+//         opacity: 0.8
+//     });
+    
+//     laser = new THREE.Mesh(geometry, material);
+    
+//     // レーザーの位置と向きを設定
+//     laser.position.copy(from).add(direction.multiplyScalar(0.5));
+//     laser.lookAt(to);
+//     laser.rotateX(Math.PI / 2); // 円筒の向きを調整
+    
+//     scene.add(laser);
+
+//     // 消す
+//     if (laserTimeout) clearTimeout(laserTimeout);
+//     laserTimeout = setTimeout(() => {
+//         if (laser) {
+//             scene.remove(laser);
+//             laser.geometry.dispose();
+//             laser.material.dispose();
+//             laser = null;
+//         }
+//     }, 500);
+// }
+
+// ===== マウスクリックで発射 =====
+// window.addEventListener('mousedown', (event) => {
+//     const mouseNDC = new THREE.Vector2(
+//         (event.clientX / window.innerWidth) * 2 - 1,
+//         -(event.clientY / window.innerHeight) * 2 + 1
+//     );
+//     const raycaster = new THREE.Raycaster();
+//     raycaster.setFromCamera(mouseNDC, camera);
+//     const from = camera.position.clone();
+//     const to = raycaster.ray.at(20, new THREE.Vector3());
+//     shootLaser(from, to);
+// });
+
+// ===== トップへ戻るボタン機能 =====
+const backToTopButton = document.getElementById('back-to-top');
+
+if (backToTopButton) {
+    // スクロール時の処理
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 300) { // 300pxスクロールしたら表示
+            backToTopButton.classList.add('show');
+        } else {
+            backToTopButton.classList.remove('show');
+        }
+    });
+
+    // ボタンクリック時の処理
+    backToTopButton.addEventListener('click', (e) => {
+        e.preventDefault();
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth' // スムーズなスクロール
+        });
+    });
+}
