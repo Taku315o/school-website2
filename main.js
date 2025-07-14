@@ -185,24 +185,16 @@ window.addEventListener('resize', () => {
 // });
 
 // ===== トップへ戻るボタン機能 =====
+// ===== トップへ戻るボタン =====
 const backToTopButton = document.getElementById('back-to-top');
 
-if (backToTopButton) {
-    // スクロール時の処理
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > 300) { // 300pxスクロールしたら表示
-            backToTopButton.classList.add('show');
-        } else {
-            backToTopButton.classList.remove('show');
-        }
-    });
+window.addEventListener('scroll', () => {
+    if (window.scrollY > 300) { // 300pxスクロールしたら表示
+        backToTopButton.classList.add('show');
+    } else {
+        backToTopButton.classList.remove('show');
+    }
+});
 
-    // ボタンクリック時の処理
-    backToTopButton.addEventListener('click', (e) => {
-        e.preventDefault();
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth' // スムーズなスクロール
-        });
-    });
-}
+
+

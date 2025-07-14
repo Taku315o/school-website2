@@ -586,6 +586,8 @@ footer {
     line-height: 1.8;                           /* 行間を広げて読みやすくする */
 }
 
+
+
 /* ===========================================
    トップへ戻るボタン機能
    ========================================== */
@@ -605,20 +607,11 @@ footer {
     text-decoration: none;
     opacity: 0; /* 最初は非表示 */
     visibility: hidden;
-    transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.2s ease, background-color 0.3s ease;
+    transition: opacity 0.3s, visibility 0.3s;
     z-index: 1000;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
 }
 
 .back-to-top-btn.show {
     opacity: 1;
     visibility: visible;
 }
-
-.back-to-top-btn:hover {
-    background-color: var(--accent-hover-color);
-    color: white;
-    transform: translateY(-3px) scale(1.1); /* ホバー時に少し浮き上がって拡大 */
-    box-shadow: 0 6px 20px rgba(var(--accent-color-rgb), 0.4);
-}
-
